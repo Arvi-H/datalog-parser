@@ -1,0 +1,20 @@
+# ninja log v5
+1	419	1664076986339588884	CMakeFiles/project1_lexer.dir/CommaAutomaton.cpp.o	5e6498c5475dd4
+2	420	1664076986338526374	CMakeFiles/project1_lexer.dir/EOFAutomaton.cpp.o	d902047484bf3357
+3	421	1664076986339423924	CMakeFiles/project1_lexer.dir/FactsAutomaton.cpp.o	b58e5316e7918239
+0	421	1664076986342315868	CMakeFiles/project1_lexer.dir/ColonDashAutomaton.cpp.o	63ea515d4952009a
+0	435	1664076986354529192	CMakeFiles/project1_lexer.dir/ColonAutomaton.cpp.o	25a863509fbc65d1
+1	510	1664076986431166251	CMakeFiles/project1_lexer.dir/CommentAutomaton.cpp.o	3d626ccb732f8262
+420	679	1664076986600002808	CMakeFiles/project1_lexer.dir/IDAutomaton.cpp.o	759838ba89a609fd
+420	683	1664076986602991586	CMakeFiles/project1_lexer.dir/LeftParenAutomaton.cpp.o	b1ca3b4836cb4ad
+435	723	1664076986644318185	CMakeFiles/project1_lexer.dir/PeriodAutomaton.cpp.o	3994166176484b
+421	808	1664076986727154136	CMakeFiles/project1_lexer.dir/main.cpp.o	ccd6cadef6371d2c
+511	810	1664076986731823764	CMakeFiles/project1_lexer.dir/QueriesAutomaton.cpp.o	cf6211cad9198ee
+683	924	1664076986844096285	CMakeFiles/project1_lexer.dir/RightParenAutomaton.cpp.o	8b56186427d68635
+421	925	1664076986845342588	CMakeFiles/project1_lexer.dir/Lexer.cpp.o	bfe24a30279677bf
+679	970	1664076986888811500	CMakeFiles/project1_lexer.dir/QuestionAutomaton.cpp.o	3930b899078be72e
+723	986	1664076986907548302	CMakeFiles/project1_lexer.dir/RulesAutomaton.cpp.o	6e60e0c8f3f07cc3
+808	1052	1664076986973787929	CMakeFiles/project1_lexer.dir/SchemesAutomaton.cpp.o	da6547cb21be9bea
+810	1097	1664076987019252651	CMakeFiles/project1_lexer.dir/StringAutomaton.cpp.o	5829186a36793655
+924	1185	1664076987106474435	CMakeFiles/project1_lexer.dir/Token.cpp.o	97a44f1254ba7060
+1185	1225	1664076987148684793	project1_lexer	30801e3b56e2047a
