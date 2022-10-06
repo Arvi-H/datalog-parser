@@ -56,3 +56,7 @@ std::string Token::toString() {
     
     return out.str();
 }
+
+TokenType Token::getTokenType() {
+    return Token::type;
+}

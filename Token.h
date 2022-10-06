@@ -34,6 +34,7 @@ public:
 
     std::string TokenConverter(TokenType type);
     std::string toString();
+    TokenType getTokenType();
 };
 
 #endif // TOKEN_H
