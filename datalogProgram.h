@@ -82,26 +82,26 @@ std::vector<Rule> DatalogProgram::getRules() {
 
 // Begin Grammar
 void DatalogProgram::dataLogProgram() {
-    // Schemes
-        match(TokenType::SCHEMES);
-        match(TokenType::COLON);
-        scheme();
-        schemeList();
-    // Facts
-        match(TokenType::FACTS);
-        match(TokenType::COLON);
-        factList();
-    // Rules    
-        match(TokenType::RULES);
-        match(TokenType::COLON);
-        ruleList();
-    // Queries
-        match(TokenType::QUERIES);
-        match(TokenType::COLON);
-        query();
-        queryList();
-    // EOF
-        match(TokenType::ENDFILE);
+// Schemes
+    match(TokenType::SCHEMES);
+    match(TokenType::COLON);
+    scheme();
+    schemeList();
+// Facts
+    match(TokenType::FACTS);
+    match(TokenType::COLON);
+    factList();
+// Rules    
+    match(TokenType::RULES);
+    match(TokenType::COLON);
+    ruleList();
+// Queries
+    match(TokenType::QUERIES);
+    match(TokenType::COLON);
+    query();
+    queryList();
+// EOF
+    match(TokenType::ENDFILE);
 }
 
 void DatalogProgram::scheme() {}

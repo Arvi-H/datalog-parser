@@ -23,7 +23,8 @@ public:
 Parser::Parser(const std::vector<Token> &t) : tokens(t) {}
 
 // Useful function to check if the tokentype argument matches the tokentype of the vector at that index
-void Parser::match(TokenType t){
+void Parser::match(TokenType t) {
+    
     if (t == tokens.at(index).getTokenType()) {
         index++;
     } else {
