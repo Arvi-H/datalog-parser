@@ -49,8 +49,8 @@ std::string DatalogProgram::toString() {
         out << "  " << query.toString() << "?" << std::endl;
     }
     // Printing the domain set list
-    out << "Domain(" << domain.size() << "):" << std::endl;
-    for (std::string s : domain) {
+    out << "Domain(" << factsDomain.size() << "):" << std::endl;
+    for (std::string s : factsDomain) {
         out << "  " << s << std::endl;
     }
     return out.str();

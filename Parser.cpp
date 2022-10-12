@@ -9,16 +9,12 @@ Parser::Parser(const std::vector<Token*> tokensCopy) {
 
 // Start Parser
 DatalogProgram Parser::Parse() {
-    try {
-        dataLogProgram();
-        return program;
-    } catch (Token &t) {
-        std::cout << "Failure  " << std::endl << t.toString() << std::endl;
-    }
+    dataLogProgram();
+    return program;
 }
 
 // Useful function to check if the tokentype argument matches the tokentype of the vector at that index
-bool Parser::match(std::string tokenName) {
+void Parser::match(std::string tokenName) {
     if (tokenName == tokens.at(index)->getTokenName()) {
         index++;
         skipComments();
@@ -95,7 +91,7 @@ void Parser::scheme() {
 
 // schemeList  ->  scheme schemeList | lambda
 void Parser::schemeList() {
-    if (match()) {
+    if (tokens.at(index)->getTokenName() == "ID") {
         scheme();
         schemeList();
     }
@@ -135,7 +131,7 @@ void Parser::fact() {
 
 // factList  ->  fact factList | lambda
 void Parser::factList() {
-    if (match()) {
+    if (tokens.at(index)->getTokenName() == "ID") {
         fact();
         factList();
     }
@@ -173,7 +169,7 @@ void Parser::rule() {
 
 // ruleList  ->  rule ruleList | lambda
 void Parser::ruleList() {
-    if (match()) {
+    if (tokens.at(index)->getTokenName() == "ID") {
         rule();
         ruleList();
     }
@@ -194,7 +190,7 @@ void Parser::query() {
 
 // Parse Query List
 void Parser::queryList() {
-    if (match()) {
+    if (tokens.at(index)->getTokenName() == "ID") {
         query();
         queryList();
     }
@@ -203,7 +199,7 @@ void Parser::queryList() {
 // idList  ->  COMMA ID idList | lambda
 void Parser::idList(Predicate& predicate) {
     // Check for Comma
-    if (match("COMMA")) {
+    if (tokens.at(index)->getTokenName() == "COMMA") {
         Parameter p;
 
         // Check for ID
@@ -220,7 +216,7 @@ void Parser::idList(Predicate& predicate) {
 
 // stringList  ->  COMMA STRING stringList | lambda
 void Parser::stringList(Predicate& predicate) {
-    if (match("COMMA")) {
+    if (tokens.at(index)->getTokenName() == "COMMA") {
         Parameter p;
         
         // Check for comma
@@ -284,15 +280,50 @@ void Parser::headPredicate(Predicate& predicate) {
     match("RIGHT_PAREN");
 }
 
+// predicateList  ->  COMMA predicate predicateList | lambda
 void Parser::predicateList(Rule& rule) {
+    // Check for comma
+    if (tokens.at(index)->getTokenName() == "COMMA"){
+        Predicate p;
+    
+        // Check for comma
+        match("COMMA");
+        
+        // Call predicate
+        predicate(p);
 
+        // Push to vector of predicates in rule
+        rule.setPredicates(p);
+
+        // Call predicate list
+        predicateList(rule);
+    }
 }
 
+// parameter  ->  STRING | ID  //*********
 void Parser::parameter(Predicate& predicate) {
+    // Check for string
+    if (tokens.at(index)->getTokenName() == "STRING") {
+        match("STRING");
+        Parameter parameter;
 
+        parameter.setID(tokens.at(index-1)->getTokenDescription());
+        predicate.addParameter(parameter);
+    } else if (tokens.at(index)->getTokenName() == "ID") {
+        match();
+        Parameter parameter;
+        parameter.setID(tokens.at(index-1)->getTokenDescription());
+        predicate.addParameter(parameter);
+    }
 }
 
+// parameterList  ->  COMMA parameter parameterList | lambda
 void Parser::parameterList(Predicate& predicate) {
-
+    if (tokens.at(index)->getTokenName() == "COMMA") {
+        match("COMMA");
+        
+        parameter(predicate);
+        parameterList(predicate);
+    }
 }
 

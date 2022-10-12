@@ -12,7 +12,7 @@ public:
     Parser(const std::vector<Token*> t);
    
     // Match Tokens
-    bool match(std::string tokenName = "ID");
+    void match(std::string tokenName = "ID");
    
     // Skip Comments
     void skipComments();
