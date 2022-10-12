@@ -1,5 +1,4 @@
 #include "Parser.h" 
-#include <utility>
 
 // Constructor to copy the vector of tokens
 Parser::Parser(const std::vector<Token*> tokensCopy) {
@@ -123,7 +122,7 @@ void Parser::fact() {
     fact.addParameter(parameter);
 
     // Call stringList
-    stringList(facts);
+    stringList(fact);
 
     // Check for Right Paren
     match("RIGHT_PAREN");
@@ -260,8 +259,29 @@ void Parser::predicate(Predicate& predicate) {
     match("RIGHT_PAREN");
 }
 
+// headPredicate  ->  ID LEFT_PAREN ID idList RIGHT_PAREN
 void Parser::headPredicate(Predicate& predicate) {
-    
+    Parameter param;
+
+    // Check for ID
+    match();
+    predicate.setID(tokens.at(index-1)->getTokenDescription());
+
+    // Check for left paren
+    match("LEFT_PAREN");
+
+    // Check for ID
+    match();
+
+    // Add parameter to predicate
+    param.setID(tokens.at(index-1)->getTokenDescription());
+    predicate.addParameter(param);
+
+    // Call idList
+    idList(predicate);
+
+    // Check for right paren
+    match("RIGHT_PAREN");
 }
 
 void Parser::predicateList(Rule& rule) {
