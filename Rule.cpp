@@ -1,10 +1,22 @@
 #include "Rule.h"
 
-void Rule::setHeadPredicateParameter(Parameter parameter) {
-    head_id.addParameter(parameter);
+void Rule::setPredicateHeadID(Predicate p) {
+    head_id = p;
 }
 
-void Rule::seRulePredicates(Predicate predicate) {
-    predicates.push_back(predicate);
+void Rule::setPredicates(Predicate p) {
+    predicates.push_back(p);
 }
 
+std::string Rule::toString() const {
+    std::string seperator = "";
+    std::stringstream out;
+   
+    out << head_id.toString() << " :- ";
+    for (Predicate currPred : predicates) {
+        out << seperator << currPred.toString();
+        seperator = ",";
+    }
+    
+    return out.str();
+}

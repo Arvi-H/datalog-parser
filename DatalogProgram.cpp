@@ -12,7 +12,7 @@ void DatalogProgram::setFacts(Predicate fact) {
 
 // Push to the facts domain
 void DatalogProgram::setFactsDomain(std::string domain) {
-    factsDomain.push_back(domain);
+    factsDomain.insert(domain);
 }
 
 // Push predicate to the queries vectors.
@@ -24,29 +24,34 @@ void DatalogProgram::setQueries(Predicate query) {
 void DatalogProgram::setRules(Rule rule) {
     DatalogProgram::rules.push_back(rule);
 }
-
-// Push parameters to the vector of parameters of the last predicate of the scheme vectors.
-void DatalogProgram::setSchemeParameters(Parameter parameter) {
-    int lastPredicateIndex = schemes.size()-1;
-
-    // Push parameter to the vector of parameters of the last predicate of the scheme vector
-    schemes[lastPredicateIndex].addParameter(parameter);    
-}
-
-// Push parameters to the vector of parameters of the last predicate of the facts vectors.
-void DatalogProgram::setFactsParameters(Parameter parameter) {
-    int lastPredicateIndex = facts.size()-1;
-
-    // Push parameter to the vector of parameters of the last predicate of the facts vector
-    facts[lastPredicateIndex].addParameter(parameter);    
-}
-
-// Push parameters to the vector of parameters of the last predicate of the queries vectors.
-void DatalogProgram::setQueriesParameters(Parameter parameter) {
-    int lastPredicateIndex = queries.size()-1;
-
-    // Push parameter to the vector of parameters of the last predicate of the queries vector
-    queries[lastPredicateIndex].addParameter(parameter);    
-}
-
  
+// Print Datalog Program
+std::string DatalogProgram::toString() {
+    std::stringstream out;
+    // Printing the schemes vector
+    out << "Schemes(" << schemes.size() << "):" << std::endl;
+    for (Predicate scheme : schemes) {
+        out << "  " << scheme.toString() << std::endl;
+    }
+    // Printing the facts vector
+    out << "Facts(" << facts.size() << "):" << std::endl;
+    for (Predicate fact : facts) {
+        out << "  " << fact.toString() << "." << std::endl;
+    }
+    // Printing the rules vector
+    out << "Rules(" << rules.size() << "):" << std::endl;
+    for (Rule rule : rules) {
+        out << "  " << rule.toString() << "." << std::endl;
+    }
+    // Printing the queries vector
+    out << "Queries(" << queries.size() << "):" << std::endl;
+    for (Predicate query : queries) {
+        out << "  " << query.toString() << "?" << std::endl;
+    }
+    // Printing the domain set list
+    out << "Domain(" << domain.size() << "):" << std::endl;
+    for (std::string s : domain) {
+        out << "  " << s << std::endl;
+    }
+    return out.str();
+}

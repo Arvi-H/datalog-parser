@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include "Parameter.h"
 
 class Predicate {
@@ -12,14 +13,14 @@ private:
     std::string predicate_id;
 
 public:
-    // Initialize Predicate ID using Initializer list
-    Predicate(std::string ID) : predicate_id(ID) {}
-
     // Add parameter to the paramteres vector
     void addParameter(Parameter p); 
 
+    // Set Predicate ID
+    void setID(std::string ID);
+    
     // Print Parameters
-    void toString();
+    std::string toString() const; 
 };
 
 #endif

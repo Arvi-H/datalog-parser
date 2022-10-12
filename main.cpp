@@ -1,5 +1,6 @@
 #include "Lexer.h"
 #include "Parser.h"
+#include "DatalogProgram.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -20,9 +21,21 @@ int main(int argc, char** argv) {
 // Run Lexer
     Lexer* lexer = new Lexer();
     lexer->Run(myFileString);
+    Parser* parser;
 
-    Parser* parser = new Parser(lexer->getTokens());
-    parser->Parse();
+    try {
+        // Run Parser 
+        parser = new Parser(lexer->getTokens());
+        DatalogProgram program = parser->Parse();
+        std::cout << "Success!" << std::endl;
+        std::cout << program.toString();
+        
+    // Catch Errors
+    } catch (Token* errorToken) {
+        std::cout << "Failure!" << std::endl << "  " << errorToken->toString();
+    } catch(...){
+        std::cout << "Caught something unexpected" << std::endl;
+    }
 
 // Free memory
     delete lexer;

@@ -1,18 +1,24 @@
 #include "Predicate.h"
 
-void Predicate::addParameter(Parameter p) {
-    parameters.push_back(p);
+void Predicate::setID(std::string ID) {
+    Predicate::predicate_id = ID;
 }
 
-void Predicate::toString() {
-    // Print predicate ID and begin formatting
-    std::cout << predicate_id << "(";
-    
-    // Run loop until last item for formatting purposes
-    for (unsigned int i = 0; i < parameters.size()-1; i++) {
-        std::cout << parameters.at(i).toString() << ",";
+void Predicate::addParameter(Parameter p) {
+    Parameter param = Parameter(p);
+    parameters.push_back(param);
+}
+
+std::string Predicate::toString() const {
+    std::stringstream out;
+
+    std::string seperate = "";
+    out << predicate_id << "(";
+    for (Parameter curr : parameters) {
+        out << seperate << curr.toString();
+        seperate = ",";
     }
-    // Print Last Index w/ formatting
-    unsigned int lastIndex = parameters.size() - 1; 
-    std::cout << parameters.at(lastIndex).toString() << ")";
+    out << ")";
+
+    return out.str();
 }
