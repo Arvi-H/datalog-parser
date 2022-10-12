@@ -20,6 +20,7 @@ public:
 
     void Run(std::string& input);
     void printTotalTokens();
+    std::vector<Token*> getTokens();
 };
 
 #endif // LEXER_H

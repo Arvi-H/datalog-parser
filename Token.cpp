@@ -10,7 +10,7 @@ Token::Token(TokenType type, std::string description, int line) {
 std::string Token::TokenConverter(TokenType type) {
     switch(type) {
     case TokenType::COLON:
-        return "COLON";;
+        return "COLON";
     case TokenType::COLON_DASH:
         return "COLON_DASH";
     case TokenType::COMMA:
@@ -57,6 +57,10 @@ std::string Token::toString() {
     return out.str();
 }
 
-TokenType Token::getTokenType() {
-    return Token::type;
+std::string Token::getTokenName() {
+    return TokenConverter(type);
+}
+
+std::string Token::getTokenDescription() {
+    return description;
 }

@@ -155,3 +155,7 @@ void Lexer::printTotalTokens() {
     }
     std::cout << "Total Tokens = " << totalTokens << std::endl;
 }
+
+std::vector<Token*> Lexer::getTokens() {
+    return tokens;
+}

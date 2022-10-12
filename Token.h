@@ -1,5 +1,6 @@
 #ifndef TOKEN_H
 #define TOKEN_H
+
 #include <string>
 
 enum class TokenType {
@@ -34,7 +35,8 @@ public:
 
     std::string TokenConverter(TokenType type);
     std::string toString();
-    TokenType getTokenType();
+    std::string getTokenName();
+    std::string getTokenDescription();
 };
 
 #endif // TOKEN_H

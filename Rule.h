@@ -7,8 +7,14 @@
 
 class Rule {
 private:
+    Predicate head_id;
     std::vector<Predicate> predicates;
-    Predicate head;
+public:
+    // Initialize Head ID using Initializer list
+    Rule(Predicate ID) : head_id(ID) {}
+
+    void setHeadPredicateParameter(Parameter parameter);
+    void seRulePredicates(Predicate predicate);
 };
 
 #endif
