@@ -19,25 +19,20 @@ int main(int argc, char** argv) {
     std::string myFileString = in.str();
 
 // Run Lexer
-    Lexer* lexer = new Lexer();
-    lexer->Run(myFileString);
-    Parser* parser;
+    Lexer lexer;
+    lexer.Run(myFileString);
 
     try {
         // Run Parser 
-        parser = new Parser(lexer->getTokens());
-        DatalogProgram program = parser->Parse();
+        Parser parser(lexer.getTokens());
+        DatalogProgram program = parser.Parse();
         std::cout << "Success!" << std::endl;
         std::cout << program.toString();
         
     // Catch Errors
     } catch (Token* errorToken) {
         std::cout << "Failure!" << std::endl << "  " << errorToken->toString();
-    }  
-
-// Free memory
-    delete lexer;
-    delete parser;
-
+    } 
+ 
     return 0;
 }

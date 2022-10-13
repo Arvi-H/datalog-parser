@@ -15,13 +15,20 @@ DatalogProgram Parser::Parse() {
 
 // Useful function to check if the tokentype argument matches the tokentype of the vector at that index
 void Parser::match(TokenType t) { 
+    // Check for End of File
+    if (tokens.at(index)->getTokenType() == TokenType::ENDFILE) {
+        return;
+    }
+    
+    // Check to see if the tokentype matches 
     if (t == tokens.at(index)->getTokenType()) {
         index++;
         skipComments();
-    } else {  
+    } else {
         throw(tokens[index]);
     }
 }
+
 
 // Useful function to skip over the comment tokens
 void Parser::skipComments() {
@@ -303,21 +310,21 @@ void Parser::predicateList(Rule& rule) {
     }
 }
 
-// parameter  ->  STRING | ID  //*********
+// parameter  ->  STRING | ID 
 void Parser::parameter(Predicate& predicate) {
     // Check for string
     if (tokens.at(index)->getTokenType() == TokenType::STRING) {
         match(TokenType::STRING);
-        Parameter parameter;
-
-        parameter.setID(tokens.at(index-1)->getTokenDescription());
-        predicate.addParameter(parameter);
-    } else {
+    // Check for ID
+    } else if (tokens.at(index)->getTokenType() == TokenType::ID) {
         match(TokenType::ID);
-        Parameter parameter;
-        parameter.setID(tokens.at(index-1)->getTokenDescription());
-        predicate.addParameter(parameter);
     }
+
+    // Add Parameter
+    Parameter parameter;
+
+    parameter.setID(tokens.at(index-1)->getTokenDescription());
+    predicate.addParameter(parameter);
 }
 
 // parameterList  ->  COMMA parameter parameterList | lambda
