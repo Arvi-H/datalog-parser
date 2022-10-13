@@ -32,26 +32,31 @@ std::string DatalogProgram::toString() {
     out << "Schemes(" << schemes.size() << "):" << std::endl;
     for (Predicate scheme : schemes) {
         out << "  " << scheme.toString() << std::endl;
-    }
+    } 
+    
     // Printing the facts vector
     out << "Facts(" << facts.size() << "):" << std::endl;
     for (Predicate fact : facts) {
         out << "  " << fact.toString() << "." << std::endl;
-    }
+    }  
+
     // Printing the rules vector
     out << "Rules(" << rules.size() << "):" << std::endl;
     for (Rule rule : rules) {
         out << "  " << rule.toString() << "." << std::endl;
-    }
+    } 
+
     // Printing the queries vector
     out << "Queries(" << queries.size() << "):" << std::endl;
     for (Predicate query : queries) {
         out << "  " << query.toString() << "?" << std::endl;
     }
+
     // Printing the domain set list
     out << "Domain(" << factsDomain.size() << "):" << std::endl;
     for (std::string s : factsDomain) {
         out << "  " << s << std::endl;
     }
+
     return out.str();
 }

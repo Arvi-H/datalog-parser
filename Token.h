@@ -35,7 +35,7 @@ public:
 
     std::string TokenConverter(TokenType type);
     std::string toString();
-    std::string getTokenName();
+    TokenType getTokenType() const;
     std::string getTokenDescription();
 };
 

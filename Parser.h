@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include "DatalogProgram.h"
+#include "Lexer.h"
 
 class Parser {
 public:
@@ -12,13 +13,11 @@ public:
     Parser(const std::vector<Token*> t);
    
     // Match Tokens
-    void match(std::string tokenName = "ID");
+    void match(TokenType t);
    
     // Skip Comments
     void skipComments();
    
-    // Index counter
-    int index = 0;
 
     // Grammar Rules
     void dataLogProgram();
@@ -43,6 +42,9 @@ public:
 private:
     std::vector<Token*> tokens;
     DatalogProgram program;
+  
+    // Index counter
+    int index = 0;
 };
 
 #endif

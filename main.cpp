@@ -33,9 +33,7 @@ int main(int argc, char** argv) {
     // Catch Errors
     } catch (Token* errorToken) {
         std::cout << "Failure!" << std::endl << "  " << errorToken->toString();
-    } catch(...){
-        std::cout << "Caught something unexpected" << std::endl;
-    }
+    }  
 
 // Free memory
     delete lexer;

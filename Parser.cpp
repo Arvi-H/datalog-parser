@@ -14,22 +14,22 @@ DatalogProgram Parser::Parse() {
 }
 
 // Useful function to check if the tokentype argument matches the tokentype of the vector at that index
-void Parser::match(std::string tokenName) {
-    if (tokenName == tokens.at(index)->getTokenName()) {
+void Parser::match(TokenType t) { 
+    if (t == tokens.at(index)->getTokenType()) {
         index++;
         skipComments();
     } else {  
-        throw(tokens.at(index));
+        throw(tokens[index]);
     }
 }
 
 // Useful function to skip over the comment tokens
 void Parser::skipComments() {
-    if (tokens.at(index)->getTokenName() == "COMMENT") { 
+    if (tokens.at(index)->getTokenType() == TokenType::COMMENT) { 
         index++; 
     }
 
-    if (tokens.at(index)->getTokenName() == "COMMENT") { 
+    if (tokens.at(index)->getTokenType() == TokenType::COMMENT) { 
         skipComments(); 
     }
 }
@@ -39,25 +39,25 @@ void Parser::dataLogProgram() {
 // Check for comments
     skipComments();
 // Schemes
-    match("SCHEMES");
-    match("COLON");
+    match(TokenType::SCHEMES);
+    match(TokenType::COLON);
     scheme();
     schemeList();
 // Facts
-    match("FACTS");
-    match("COLON");
+    match(TokenType::FACTS);
+    match(TokenType::COLON);
     factList();
 // Rules    
-    match("RULES");
-    match("COLON");
+    match(TokenType::RULES);
+    match(TokenType::COLON);
     ruleList();
 // Queries
-    match("QUERIES");
-    match("COLON");
+    match(TokenType::QUERIES);
+    match(TokenType::COLON);
     query();
     queryList();
 // EOF
-    match("ENDFILE");
+    match(TokenType::ENDFILE);
 }
 
 // scheme  ->  ID LEFT_PAREN ID idList RIGHT_PAREN
@@ -66,14 +66,14 @@ void Parser::scheme() {
     Parameter parameter;
     
     // Check for ID
-    match();
+    match(TokenType::ID);
     scheme.setID(tokens.at(index-1)->getTokenDescription());
     
     // Check for Left Paren
-    match("LEFT_PAREN");
+    match(TokenType::LEFT_PAREN);
 
     // Check for ID
-    match();
+    match(TokenType::ID);
 
     // Add Param
     parameter.setID(tokens.at(index-1)->getTokenDescription());
@@ -83,7 +83,7 @@ void Parser::scheme() {
     idList(scheme);
 
     // Check for Right Paren
-    match("RIGHT_PAREN");
+    match(TokenType::RIGHT_PAREN);
 
     // Push the scheme
     program.setSchemes(scheme);
@@ -91,7 +91,7 @@ void Parser::scheme() {
 
 // schemeList  ->  scheme schemeList | lambda
 void Parser::schemeList() {
-    if (tokens.at(index)->getTokenName() == "ID") {
+    if (tokens.at(index)->getTokenType() == TokenType::ID) {
         scheme();
         schemeList();
     }
@@ -103,14 +103,14 @@ void Parser::fact() {
     Parameter parameter;
     
     // Check for ID
-    match();
+    match(TokenType::ID);
     fact.setID(tokens.at(index-1)->getTokenDescription());
     
     // Check for Left Paren
-    match("LEFT_PAREN");
+    match(TokenType::LEFT_PAREN);
 
     // Check for String
-    match("STRING");
+    match(TokenType::STRING);
     program.setFactsDomain(tokens.at(index-1)->getTokenDescription());
     
     // Add Param
@@ -121,17 +121,17 @@ void Parser::fact() {
     stringList(fact);
 
     // Check for Right Paren
-    match("RIGHT_PAREN");
+    match(TokenType::RIGHT_PAREN);
 
     // Check for Period
-    match("PERIOD");
+    match(TokenType::PERIOD);
 
     program.setFacts(fact);
 }
 
 // factList  ->  fact factList | lambda
 void Parser::factList() {
-    if (tokens.at(index)->getTokenName() == "ID") {
+    if (tokens.at(index)->getTokenType() == TokenType::ID) {
         fact();
         factList();
     }
@@ -150,7 +150,7 @@ void Parser::rule() {
     rule.setPredicateHeadID(ruleHead);
     
     // Check for COLON DASH
-    match("COLON_DASH");
+    match(TokenType::COLON_DASH);
 
     // Call predicate
     predicate(rules);
@@ -162,14 +162,14 @@ void Parser::rule() {
     predicateList(rule);
 
     // Check for Period
-    match("PERIOD");
+    match(TokenType::PERIOD);
 
     program.setRules(rule); 
 }
 
 // ruleList  ->  rule ruleList | lambda
 void Parser::ruleList() {
-    if (tokens.at(index)->getTokenName() == "ID") {
+    if (tokens.at(index)->getTokenType() == TokenType::ID) {
         rule();
         ruleList();
     }
@@ -183,14 +183,14 @@ void Parser::query() {
     predicate(query);
 
     // Check for Question Mark
-    match("Q_MARK");
+    match(TokenType::QUESTION);
 
     program.setQueries(query);
 }
 
 // Parse Query List
 void Parser::queryList() {
-    if (tokens.at(index)->getTokenName() == "ID") {
+    if (tokens.at(index)->getTokenType() == TokenType::ID) {
         query();
         queryList();
     }
@@ -199,11 +199,14 @@ void Parser::queryList() {
 // idList  ->  COMMA ID idList | lambda
 void Parser::idList(Predicate& predicate) {
     // Check for Comma
-    if (tokens.at(index)->getTokenName() == "COMMA") {
+    if (tokens.at(index)->getTokenType() == TokenType::COMMA) {
         Parameter p;
 
+        // Check for comma
+        match(TokenType::COMMA);
+
         // Check for ID
-        match();
+        match(TokenType::ID);
 
         // Add Parameter
         p.setID(tokens.at(index-1)->getTokenDescription());
@@ -216,14 +219,14 @@ void Parser::idList(Predicate& predicate) {
 
 // stringList  ->  COMMA STRING stringList | lambda
 void Parser::stringList(Predicate& predicate) {
-    if (tokens.at(index)->getTokenName() == "COMMA") {
+    if (tokens.at(index)->getTokenType() == TokenType::COMMA) {
         Parameter p;
         
         // Check for comma
-        match("COMMA");
+        match(TokenType::COMMA);
         
         // Check for string
-        match("STRING");
+        match(TokenType::STRING);
 
         // Add Parameter
         program.setFactsDomain(tokens.at(index-1)->getTokenDescription());
@@ -237,13 +240,13 @@ void Parser::stringList(Predicate& predicate) {
 // predicate  ->  ID LEFT_PAREN parameter parameterList RIGHT_PAREN
 void Parser::predicate(Predicate& predicate) {
     // Check for ID
-    match();
+    match(TokenType::ID);
 
     // Add predicate ID
     predicate.setID(tokens.at(index-1)->getTokenDescription());
     
     // Check for Left Paren
-    match("LEFT_PAREN");
+    match(TokenType::LEFT_PAREN);
 
     // Call Parameter
     parameter(predicate);
@@ -252,7 +255,7 @@ void Parser::predicate(Predicate& predicate) {
     parameterList(predicate);
     
     // Check for right paren
-    match("RIGHT_PAREN");
+    match(TokenType::RIGHT_PAREN);
 }
 
 // headPredicate  ->  ID LEFT_PAREN ID idList RIGHT_PAREN
@@ -260,14 +263,14 @@ void Parser::headPredicate(Predicate& predicate) {
     Parameter param;
 
     // Check for ID
-    match();
+    match(TokenType::ID);
     predicate.setID(tokens.at(index-1)->getTokenDescription());
 
     // Check for left paren
-    match("LEFT_PAREN");
+    match(TokenType::LEFT_PAREN);
 
     // Check for ID
-    match();
+    match(TokenType::ID);
 
     // Add parameter to predicate
     param.setID(tokens.at(index-1)->getTokenDescription());
@@ -277,17 +280,17 @@ void Parser::headPredicate(Predicate& predicate) {
     idList(predicate);
 
     // Check for right paren
-    match("RIGHT_PAREN");
+    match(TokenType::RIGHT_PAREN);
 }
 
 // predicateList  ->  COMMA predicate predicateList | lambda
 void Parser::predicateList(Rule& rule) {
     // Check for comma
-    if (tokens.at(index)->getTokenName() == "COMMA"){
+    if (tokens.at(index)->getTokenType() == TokenType::COMMA){
         Predicate p;
     
         // Check for comma
-        match("COMMA");
+        match(TokenType::COMMA);
         
         // Call predicate
         predicate(p);
@@ -303,14 +306,14 @@ void Parser::predicateList(Rule& rule) {
 // parameter  ->  STRING | ID  //*********
 void Parser::parameter(Predicate& predicate) {
     // Check for string
-    if (tokens.at(index)->getTokenName() == "STRING") {
-        match("STRING");
+    if (tokens.at(index)->getTokenType() == TokenType::STRING) {
+        match(TokenType::STRING);
         Parameter parameter;
 
         parameter.setID(tokens.at(index-1)->getTokenDescription());
         predicate.addParameter(parameter);
-    } else if (tokens.at(index)->getTokenName() == "ID") {
-        match();
+    } else {
+        match(TokenType::ID);
         Parameter parameter;
         parameter.setID(tokens.at(index-1)->getTokenDescription());
         predicate.addParameter(parameter);
@@ -319,8 +322,8 @@ void Parser::parameter(Predicate& predicate) {
 
 // parameterList  ->  COMMA parameter parameterList | lambda
 void Parser::parameterList(Predicate& predicate) {
-    if (tokens.at(index)->getTokenName() == "COMMA") {
-        match("COMMA");
+    if (tokens.at(index)->getTokenType() == TokenType::COMMA) {
+        match(TokenType::COMMA);
         
         parameter(predicate);
         parameterList(predicate);

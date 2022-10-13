@@ -57,8 +57,8 @@ std::string Token::toString() {
     return out.str();
 }
 
-std::string Token::getTokenName() {
-    return TokenConverter(type);
+TokenType Token::getTokenType() const {
+    return type;
 }
 
 std::string Token::getTokenDescription() {
